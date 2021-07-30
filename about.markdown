@@ -1,18 +1,13 @@
 ---
 layout: page
-title: About
+title: About me
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Hi!
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+My name is Andras Berczi. I work as a Data Scientist, currently for Emarsys in Budapest, Hungary.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+This website is an attempt from me to post the things I have learned. Let's see, how it goes!
 
-
-[jekyll-organization]: https://github.com/jekyll
+![small-profile-pic](./small_profile_pic.jpg)
