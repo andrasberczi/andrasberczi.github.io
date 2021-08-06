@@ -19,18 +19,84 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Andras Berczi
+author: Andras Berczi
+# avatar: "small_profile_pic.jpg"
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Data Scientist @ Emarsys, especially interested in statistics and causality.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: Dzsombre
-github_username:  andrasberczi
+social-network-links:
+  twitter: Dzsombre
+  github:  andrasberczi
+
+# Select which social network share links to show in posts
+share-links-active:
+  twitter: true
+  facebook: true
+  linkedin: true
 
 # Build settings
-theme: minima
+# theme: minima
+theme: beautiful-jekyll-theme
 plugins:
-  - jekyll-feed
+  - jekyll-paginate
+  - jekyll-sitemap
+
+# --- List of links in the navigation bar --- #
+navbar-links:
+  About Me: "about"
+
+# Add a search button to the navbar
+post_search: true
+
+# Excerpt word length - Truncate the excerpt of each post on the feed page to the specified number of words
+excerpt_length: 50
+
+# Output options (more information on Jekyll's site)
+markdown: kramdown
+highlighter: rouge
+permalink: /:year-:month-:day-:title/
+paginate: 5
+
+kramdown:
+  input: GFM
+
+# Default YAML values (more information on Jekyll's site)
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true  # add comments to all blog posts
+      social-share: true # add social media sharing buttons to all blog posts
+  -
+    scope:
+      path: "" # any file that's not a post will be a "page" layout by default
+    values:
+      layout: "page"
+
+# Personalize the colours in your website. Colour values can be any valid CSS colour
+
+navbar-col: "#70DA45"
+navbar-text-col: "#404040"
+navbar-border-col: "#DDDDDD"
+page-col: "#FFFFFF"
+text-col: "#404040"
+link-col: "#008AFF"
+# hover-col: "#F4A117"
+footer-col: "#70DA45"
+footer-text-col: "#777777"
+footer-link-col: "#404040"
+
+# Alternatively, the navbar, footer, and page background can be set to an image
+# instead of colour
+
+#navbar-img: "/assets/img/bgimage.png"
+#footer-img: "/assets/img/bgimage.png"
+# page-img: "/assets/img/bgimage.png"
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -40,7 +106,15 @@ plugins:
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-# exclude:
+exclude:
+  - CHANGELOG.md
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - screenshot.png
+  - docs/
 #   - .sass-cache/
 #   - .jekyll-cache/
 #   - gemfiles/
