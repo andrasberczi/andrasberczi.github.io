@@ -6,34 +6,110 @@ In this blogpost I will write down what I have learned. I do this for 2 reasons:
 1. it is a good way to check if I have really understood the video,
 2. I want to share this knowledge with the world.
 
-Of course I don't want to go as deep as Andrej does in his video, so if you want to get a real deep understanding, I really suggest to watch his video!
+So how do transformer models, like those powering GPT, work? While the final models may seem like black boxes, their underlying mechanisms are surprisingly structured and elegant.
 
-So how do transformer models, like those powering GPT, work? While the final models may seem like black boxes, their underlying mechanisms are surprisingly structured and elegant. In this blog post, I’ll break down the essential components of transformers and explain how they work.
-
-In the video Andrej explains the mechanism through code, where he implements a model, which can generate text. The model is trained on a txt file, which [contains text from Shakespeare's work](https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt). I will use the same example
+Of course I don't want to go as deep as Andrej does in his video, so if you want to get a real deep understanding, I really suggest to watch his video! I will just highlight the main steps and ellaborate on some parts, which I think are interesting.
 
 ## Understanding the Problem: Context and Sequence in Language Modeling
 
-Language modeling involves predicting the next word (or character) in a sequence based on prior context. For instance, given the phrase “To be or not to”, a good model should predict “be” as the next word.
-
-Traditional models, like n-grams, struggle to capture long-range dependencies effectively. These models usually take the last n words/characters/tokens as an input, but fails to grasp the importance of the words, when predicting the next one.
+Language modeling involves predicting the next word (or character) in a sequence based on prior context. For instance, given the phrase “To be or not to”, a good model should predict “be” as the next word. Traditional models, like n-grams, struggle to capture long-range dependencies effectively. These models usually take the last n words/characters/tokens as an input and predict the next one based on all these inputs.
 
 Transformers address this limitation by focusing on the relationship between all elements in a sequence through their self-attention mechanism.
 
+In this blogpost I am going to use the same example Andrej uses in his video. Our task is to implement a model, which can generate text, based on some input (text). We are going to  train the model based on a txt file, which [contains text from Shakespeare's work](https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt).
+
+I will also provide some code in the hope, that it helps understanding the concepts better. However, it is not a full implementation, if you want a full code, with all the dependencies to run it, I suggest to check out Andrej's github repository.
+
+
 ## Building on the foundation of Bigram Model.
 
-We began our journey by implementing a simple **bigram model**, which predicts the next character based only on the current one.
+Although I have just mentioned it's shortcomings, to keep thins simple, we will start with a traditional **bigram model**, where we will predict the next character based only on the current one. You saw right: we will predict the next character. This is just for simplicity. In a real world scenario, we would predict the next token or next word, but for now, we will stick with characters.
 
-Models can work with numbers, so we need to 'convert' text to numbers.
-For this, we tokenize the text at the character level, converting each character into a unique numerical ID.
-2. Created an **embedding layer** to map these IDs to vectors, which are richer numerical representations.
-3. Predicted the next character using a simple lookup table.
+As a first step, we need to encode the characters into numerical values. We will use a simple dictionary for this, so basically assign a number to each letter in the abc. Eg.: {'a': 0, 'b': 1, 'c': 2, ...}. These number representations will be used as input for our model. (See example code in collapsabel details below.)
 
-For example, if the input is “To”, the model predicts “ ” (space) as the most likely next character based on patterns in the training data.
+<details>
 
-While straightforward, the bigram model lacks the ability to incorporate context beyond the immediate previous character, leading to incoherent text generation.
+```python
+# input_file_path is the path to the txt file, which contains the text we want to train our model on.
+# It contains text from Shakespeare's work, as mentioned in the block above.
+with open(input_file_path, "r", encoding="utf-8") as f:
+  text = f.read()
+
+# Character-level encoding
+# The numbers are the indices of the characters in the `chars` list
+# So basically we are converting the characters to numbers by alphabetical order
+chars = sorted(list(set(text)))
+stoi = {char: i for i, char in enumerate(chars)}
+itos = {i: char for i, char in enumerate(chars)}
+
+encode = lambda s: [stoi[char] for char in s]
+decode = lambda l: "".join([itos[i] for i in l])
+
+data = torch.tensor(encode(text), dtype=torch.long)
+```
+</details>
+
+Then we start to build our model. The first model will be very simple, it will just consist of an embedding layer.
+The embedding layer will map the input characters to vectors. This vector will be the representation of a sequence of characters. It will be used during the training process: the model will learn to predict the next character based on this vector representation.
+
+```python
+class BigramLanguageModel(nn.Module):
+  def __init__(self, vocab_size):
+    super().__init__()
+    self.token_embedding_table = nn.Embedding(vocab_size, vocab_size)
+
+  def forward(self, idx, targets=None):
+    logits = self.token_embedding_table(idx)
+
+    if targets is None:
+      loss = None
+
+    else:
+      B, T, C = logits.shape
+      logits = logits.view(B * T, C)
+      targets = targets.view(B * T)
+      loss = F.cross_entropy(logits, targets)
+    return logits, loss
+
+  def generate(self, idx, max_new_tokens):
+    for _ in range(max_new_tokens):
+      logits, loss = self(idx)
+      logits = logits[:, -1, :]
+      probs = F.softmax(logits, dim=-1)
+      idx_next = torch.multinomial(probs, num_samples=1)
+      idx = torch.cat([idx, idx_next], dim=1)
+    return idx
+```
+
+In the code above we have the `forward` and the `generate` methods. The `forward` method is used during the training process. It takes the input characters and the target characters as input and returns the logits and the loss. We can use this information to update the weights of the model during the training process.
+
+<details>
+
+```python
+for steps in range(eval_iters):
+    if steps % print_iter == 0:
+        losses = estimate_loss()
+        print(f"step: {steps}, train loss: {losses['train']:.4f}, val loss: {losses['val']:.4f}")
+
+    # The get_batch function generates a batch of input and target sequences from either training or validation data by randomly sampling starting indices and extracting sequences of a specified length.
+    # This is used to prepare data for training or validating sequence models.
+    xb, yb = get_batch("train")
+
+    # evaluate the model on the batch
+    logits, loss = model(xb, yb)
+
+    # update the model's parameters
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()
+```
+</details>
+
+The `generate` method is used to generate text. It takes the input characters and the number of characters we want to generate as input and returns the generated characters.
 
 ## Step 2: Introducing the Self-Attention Mechanism
+
+Now you might be able to imagine, that this process is too simple to work well.
 
 To overcome the limitations of the bigram model, we introduced **self-attention**, the cornerstone of transformers. Self-attention enables each token in the sequence to dynamically weigh the importance of other tokens when making predictions.
 
