@@ -135,6 +135,41 @@ The same thing happens with the tokens/words in a sequence. The model assigns qu
 
 ### The simple trick to calculate the attention scores
 
+Maybe it is a bit of a detail, but I really found this highlight interesting in Andrej's video. As described above, the attention mechanism is about calculating the relevance of the tokens in the sequence.
+
+So what does this mean? Let's say we have tokens represented as vectors.
+
+token1 = [0.1, 0.2]
+
+token2 = [0.3, 0.4]
+
+token3 = [0.5, 0.6]
+
+Then our tokenised sentence, represented as vectors would be:
+
+sentence = [token1, token2, token3]
+sentence = [[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]]
+
+Now our task is to calculate the relevance of the previous tokens for each token. This means we have to calculate the relevance of token1 for token2 and the relevance of token1, token2 for token3. We actually just calculate the average of the previous tokens for each token. You could calculate this by iterating over the tokens and calculating the average of the previous tokens for each token:
+
+step 1: average of token1 = token1
+step 2: average of token2 = (token1 + token2) / 2
+step 3: average of token3 = (token1 + token2 + token3) / 3
+
+<details>
+```python
+sentence = torch.tensor([[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]])
+for i, token in enumerate(sentence):
+    previous_tokens = sentence[:i+1]
+    relevance = torch.stack(list(previous_tokens)).mean(dim=0)
+    print(relevance)
+```
+</details>
+
+However, iterating over each token is not efficient. Usually we have a lot of tokens in a sequence and also the vector representation of a token is much longer.
+
+With neural networks usually the trick is to use matrix multiplication, which makes calculations much more efficient. So how is it done in this case?
+
 
 
 ## Step 3: Multi-Head Attention for Richer Representations
