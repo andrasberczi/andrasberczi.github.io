@@ -8,6 +8,6 @@ Hi!
 
 My name is Andras Berczi. I work as a Data Scientist, currently for Emarsys in Budapest, Hungary.
 
-This website is an attempt from me to post the things I have learned. Let's see, how it goes!
+Nowadays, with LLMs all around, information can be found very easily, so my main goal with these blogposts is an exercise for myself: to see if I understood a topic well enough to explain it to others. But in the meantime, I hope you find them useful too!
 
 ![small-profile-pic](./small_profile_pic.jpg)
