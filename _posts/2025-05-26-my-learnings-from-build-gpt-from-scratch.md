@@ -33,14 +33,11 @@ As a first step, we need to encode the characters into numerical values. We will
 <details>
 
 ```python
-# input_file_path is the path to the txt file, which contains the text we want to train our model on.
-# It contains text from Shakespeare's work, as mentioned in the block above.
+
 with open(input_file_path, "r", encoding="utf-8") as f:
   text = f.read()
+# input_file_path is the path to the txt file, which contains the text we want to train our model on. It contains text from Shakespeare's work, as mentioned in the block above.
 
-# Character-level encoding
-# The numbers are the indices of the characters in the `chars` list
-# So basically we are converting the characters to numbers by alphabetical order
 chars = sorted(list(set(text)))
 stoi = {char: i for i, char in enumerate(chars)}
 itos = {i: char for i, char in enumerate(chars)}
@@ -49,7 +46,9 @@ encode = lambda s: [stoi[char] for char in s]
 decode = lambda l: "".join([itos[i] for i in l])
 
 data = torch.tensor(encode(text), dtype=torch.long)
+
 ```
+
 </details>
 
 Now that we have inputs, we can start to build our model. The first model will be very simple, it will just consist of an embedding layer.
@@ -92,6 +91,7 @@ We can use this information to update the weights of the model during the traini
 <details>
 
 ```python
+
 for steps in range(eval_iters):
     if steps % print_iter == 0:
         losses = estimate_loss()
@@ -108,7 +108,9 @@ for steps in range(eval_iters):
     optimizer.zero_grad(set_to_none=True)
     loss.backward()
     optimizer.step()
+
 ```
+
 </details>
 
 The `generate` method is used to generate text. It takes the input characters and the number of characters we want to generate as input and returns a character based on the probability distribution of the possible next characters.
@@ -158,13 +160,17 @@ step 2: average of token2 = (token1 + token2) / 2
 step 3: average of token3 = (token1 + token2 + token3) / 3
 
 <details>
+
 ```python
+
 sentence = torch.tensor([[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]])
 for i, token in enumerate(sentence):
     previous_tokens = sentence[:i+1]
     relevance = torch.stack(list(previous_tokens)).mean(dim=0)
     print(relevance)
+
 ```
+
 </details>
 
 This code above will calculate the average for previous tokens:
