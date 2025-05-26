@@ -9,13 +9,13 @@ In this blogpost I will write what I have learned. My main goals with this blogp
 
 So how do transformer models, like those powering GPT, work? While the final models may seem like black boxes, their underlying mechanisms are surprisingly structured and elegant.
 
-Of course I don't want to go as deep as Andrej does in his video, so if you want to get a real deep understanding, I really suggest to watch his video! I will just highlight the main steps and ellaborate on some parts, which I think are interesting.
+Of course I don't want to go as deep as Andrej does in his video, so if you want to get a real deep understanding, I really suggest to watch his video! I will just highlight the main steps and elaborate on some parts, which I think are interesting.
 
 I will also provide some code in the hope, that it helps understanding the concepts better. However, it is not a full implementation. If you want a full code, with all the dependencies to run it, I suggest to check out Andrej's github repository.
 
 ## Understanding the Problem: Context and Sequence in Language Modeling
 
-Our goal at the end of the day is to generate text that help you achieve your task. Text generation is a huge topic, it can mean summarising, translating or having a discussion with a chatbot.
+Our goal at the end of the day is to generate text that help you achieve your task. Text generation is a broad field. It includes tasks such as summarizing, translating, or having a conversation with a chatbot.
 
 Transformer models are great for tasks, where tasks involve predicting the next word (or character) in a sequence based on prior context. For instance, given the phrase “To be or not to”, a good model should predict “be” as the next word. There are traditional models, like n-grams (eg.: `bigram`), but they struggle to capture long-range dependencies effectively. These models usually take the last n words/characters/tokens as an input and predict the next one based on all these inputs.
 
@@ -215,7 +215,7 @@ Up until now we have seen how to predict the next character based on the previou
 A single **transformer block** integrates:
 
 1. **Multi-head attention:** This extends self-attention by running multiple attention mechanisms in parallel. Each 'head' learns to focus on different aspects of the sequence—such as syntax, semantics, or specific recurring patterns. For our Shakespearean text example, one head might focus on rhythmic patterns (e.g., iambic pentameter), while another emphasizes grammatical structure. The goal is basically to analyise the text from many different perspectives to make the next token predictions as good as possible.
-2. **Feedforward layers:** Applying non-linear transformations to learn more complex (non-linear) patterns in the data. One important step here is the *Dropout layer*. While this technique is good for finding complex patterns, it is prone to overfitting. The Dropout layer helps this by dropping the communication between some neurons. This 'dumbs down' the model during training to make sure it is not overfitting on the training data.
+2. **Feedforward layers:** Applying non-linear transformations to learn more complex (non-linear) patterns in the data. One important step here is the *Dropout layer*. While this technique is good for finding complex patterns, it is prone to overfitting. The Dropout layer helps this by randomly disabling some neurons during training to prevent overfitting. This 'dumbs down' the model during training to make sure it is not overfitting on the training data.
 3. **Residual connections:** Adding the input to the output of each layer to stabilize gradients and preserve information. This is a technique, which is used to avoid the vanishing gradient problem, which is a problem, when the gradients are too small and the model is not able to learn the correct patterns.
 4. **Layer normalization:** Ensuring numerical stability by normalizing inputs within each layer. Instability would mean that the gradients are too large or too small, which would make the training process unstable: the weights in the model would be too large or too small and the model would not be able to learn the correct patterns. (So it solves a similar problem as the Residual connections, just the root source of the problem is different, so a different solution is needed.)
 
@@ -231,13 +231,9 @@ The model is trained by:
 
 For our Shakespearean text, training involves exposing the model to sequences of characters and adjusting its parameters to minimize the prediction error. Over time, the model learns patterns like word structures and stylistic nuances.
 
-## Conclusion
+## What's Missing from the real thing?
 
-The example above shows a so called 'decoder' solution, which takes a sequence of tokens (characters in our case) and predicts the next token in the sequence. This is a common architecture for text generation tasks, where the model generates text based on a given input.
-
-There are some differences on how models like GPT actually work.
-
-For one, they use an encoder-decoder architecture. This is useful when you want to depend on a text, use that as an input and generate text based on that. For example, the [original paper](https://arxiv.org/abs/1706.03762) focused on translations. The input here was eg.: sentence in French. Based on this, we want to generate text in English.
+The example above shows a so called 'decoder' solution, which takes a sequence of tokens (characters in our case) and predicts the next token in the sequence. This is a common architecture for text generation tasks, where the model generates text based on a given input. This is what models like GPT use and it is different from the [original paper](https://arxiv.org/abs/1706.03762). There, they show an encoder-decoder architecture, with an example focused on translations. The input here was eg.: sentence in French. Based on this, we want to generate text in English. The key difference is that an encoder processes the entire input sequence at once, creating a context-aware representation, while a decoder generates the output sequence step by step. In simpler terms, the encoder sees the whole text at once, while the decoder only sees 'past' tokens during generation.
 
 In the decoder there is another addition, the cross-attention layer. Here the queries are still generated from x (input from text in decoder), but keys and values are coming from the encoder. This means that the decoding is not only conditiond on past text during generation, but also the full, embedded input text.
 
@@ -256,7 +252,3 @@ For this OpenAI has 3 steps:
 This takes the model from a document generator to a question answerer.
 
 So while we cannot build a full GPT, I hope this blogpost gives you a good understanding of how transformer models work and how they can be used for text generation tasks. The concepts of self-attention, multi-head attention, and the transformer block are key to understanding the power of these models.
-
-
-
-
