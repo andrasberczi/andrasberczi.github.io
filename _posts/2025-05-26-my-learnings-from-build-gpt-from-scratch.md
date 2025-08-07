@@ -1,3 +1,13 @@
+---
+layout: post
+title:  "How Transformer Models Work: Breaking Down the Magic of GPT"
+date:   2025-05-26
+# cover-img: ./MDE.png
+# share-img: ./gpt.png
+# thumbnail-img: ./MDE.png
+readtime: true
+---
+
 # How Transformer Models Work: Breaking Down the Magic of GPT
 
 ## Introduction
