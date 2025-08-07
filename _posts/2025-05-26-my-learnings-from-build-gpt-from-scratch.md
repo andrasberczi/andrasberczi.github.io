@@ -8,8 +8,6 @@ date:   2025-05-26
 readtime: true
 ---
 
-# How Transformer Models Work: Breaking Down the Magic of GPT
-
 ## Introduction
 I wanted to get a deeper understanding on how GPT models work. I have watched Andrej Karpaty's [amazing Youtube video](https://www.youtube.com/watch?v=kCc8FmEb1nY&t=2s) on this.
 In this blogpost I will write what I have learned. My main goals with this blogpost are:
