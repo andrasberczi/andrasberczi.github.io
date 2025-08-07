@@ -12,7 +12,7 @@ If you ask a person to calculate the average of two numbers, like 10 and 20, it'
 
 This answer is correct of course, but few remembers their high school math, that the average or the mean can be calculated in multiple ways. In this blogpost I want to do a quick dive on why and when to use the harmonic mean, instead of the arithmetic mean. There are other kind of means as well, but I won't be covering them. If you are interested, [check them out](https://en.wikipedia.org/wiki/Mean) and think through when it's worth using them!
 
-# Example: what your average speed?
+# Example: what is your average speed?
 
 Let's say you have to travel 200 km. The first 100 km you go on the highway and go with 130 km/h. The second 100 km you go in the city and you travel with 50 km/h. So what is your average speed?
 
