@@ -28,7 +28,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 social-network-links:
   twitter: Dzsombre
-  github:  andrasberczi
+  github: andrasberczi
 
 # Select which social network share links to show in posts
 share-links-active:
@@ -63,18 +63,19 @@ paginate: 5
 kramdown:
   input: GFM
 
+# MathJax configuration for LaTeX rendering
+mathjax: true
+
 # Default YAML values (more information on Jekyll's site)
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
       type: "posts"
     values:
       layout: "post"
-      comments: true  # add comments to all blog posts
+      comments: true # add comments to all blog posts
       social-share: true # add social media sharing buttons to all blog posts
-  -
-    scope:
+  - scope:
       path: "" # any file that's not a post will be a "page" layout by default
     values:
       layout: "page"

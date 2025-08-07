@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "What mean can mean?"
-date:   2025-08-07
+title: "What mean can mean?"
+date: 2025-08-07
 # cover-img: ./MDE.png
 # share-img: ./mean.png
 # thumbnail-img: ./MDE.png
@@ -37,7 +37,7 @@ A ratio of course has a numerator and denominator. Harmonic mean should be used,
 
 This might sound a bit complicated, so let me give you an example.
 
-In the question above we cared about the average speed over some *distance*, which is the numerator. The 'variable' part was the time spent travelling that distance, given the speed.
+In the question above we cared about the average speed over some _distance_, which is the numerator. The 'variable' part was the time spent travelling that distance, given the speed.
 
 If I would have asked: "You travel 1 hour with 130 km/h and 1 hour with 50 km/h, what is your average speed?", then using the arithmetic mean would be correct!
 
