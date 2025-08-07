@@ -92,3 +92,31 @@ Here we want to calculate the average of precision and recall. Precision is the 
 I really enjoyed writing this blogpost. It made me think over how the harmonic mean works and why I shouldn't just default to the arithmetic mean without thinking.
 
 I hope it is useful for you as well!
+
+<!-- MathJax Configuration -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      ignoreHtmlClass: 'tex2jax_ignore',
+      processHtmlClass: 'tex2jax_process'
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+<style>
+  .MathJax {
+    font-size: 1.1em;
+  }
+  .MathJax_Display {
+    margin: 1em 0;
+  }
+</style>
