@@ -2,7 +2,7 @@
 layout: post
 title: "Test your intuition on p-values - brain teaser by Ron Kohavi"
 date: 2025-10-08
-cover-img: ./MDE_2.png
+# cover-img: ./MDE_2.png
 share-img: ./MDE_2.png
 thumbnail-img: ./MDE_2.png
 readtime: true
