@@ -77,7 +77,7 @@ result <- power.prop.test(p1 = a_success_rate_alternative, p2 = b_success_rate_a
 n <- round(result$n)
 
 # OVERRIDE N to see what decisions would we make with smaller samples?
-n <- 100
+n <- 1000
 
 a_standard_error_alternative <- sqrt(a_success_rate_alternative * (1 - a_success_rate_alternative) / n)
 b_standard_error_alternative <- sqrt(b_success_rate_alternative * (1 - b_success_rate_alternative) / n)
@@ -106,6 +106,13 @@ ggplot(data.table(a_simulations = a_simulations_alternative, b_simulations = b_s
 
 paste("Ratio when B is better than A:", round(mean(b_simulations_alternative > a_simulations_alternative), 4) * 100, "%")
 paste("Ratio when B is better than A:", round(mean(difference_in_means_alternative > 0), 4) * 100, "%")
+
+# function is created below, just trying it here as well, as it seems it gives different results
+paste("Ratio when B is better than A:", round(compute_posterior_prob_b_greater_than_a(
+  a_successes = a_success_rate_alternative * n, a_trials = n,
+  b_successes = b_success_rate_alternative * n, b_trials = n
+), 4) * 100, "%")
+
 
 paste(
     "Ratio when we choose B based on statistical significance:",
@@ -158,6 +165,8 @@ mean(pmax(0, difference_in_means_alternative)) / effect_size
 
 ###### Bayesian Decision Making: Posterior Probabilities and Bayes Factor
 ###### Side-by-side comparison with Frequentist approach
+
+n <- 20
 
 # Helper function to compute P(B > A | data) using Beta-Binomial posteriors
 # With uninformative Beta(1,1) prior, posterior is Beta(1 + successes, 1 + failures)
