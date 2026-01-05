@@ -17,6 +17,7 @@ How to do it?
 - https://elem.com/~btilly/ab-testing-multiple-looks/part1-rigorous.html
 - https://www.auduno.com/2014/12/25/rapid-a-b-testing-with-sequential-analysis/
 - chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://genomics.princeton.edu/storeylab/papers/Storey_Annals_2003.pdf
+- chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.ime.usp.br/~abe/lista/pdf4R8xPVzCnX.pdf
 
 - significance level / p-values
   chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://sites.stat.columbia.edu/gelman/research/published/signif4.pdf
